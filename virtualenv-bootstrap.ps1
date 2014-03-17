@@ -7,6 +7,12 @@ $ErrorActionPreference="Stop"
 # We're going to take the maximum version that matches this pattern
 $PythonVersionPattern = "2.[67]"
 
+$VirtualEnvName = "automation"
+$VirtualEnvHome = "$env:USERPROFILE\python-envs"
+$VirtualEnvPath = "$VirtualEnvHome\$VirtualEnvName"
+
+$ShortcutName = "Automation Command Prompt"
+
 # Places we might find out about installations.  As it's usually
 # better to use 32 bit versions, we place the WOW64 prefixed versions
 # first.  We will accept a 64 bit Python 2.7 over a 32 bit Python
@@ -59,6 +65,9 @@ function Find-Python() {
 
 $python = Find-Python
 
+## Install Pip
+# WARNING: This will overwrite any pre-exisiting user installation of pip.
+
 $pipfile = [io.path]::GetTempFileName();
 $url = "https://raw.github.com/pypa/pip/master/contrib/get-pip.py";
 $client = new-object System.Net.WebClient;
@@ -66,17 +75,19 @@ $client.DownloadFile($url, $pipfile);
 Write-Debug "Downloaded Pip";
 & $python $pipfile --user --ignore-installed | write-host;
 
+
+## Use pip to install a recent virtualenv.
+# WARNING: This will overwrite any pre-existing user installation of
+# virtualenv
 & "$env:APPDATA\Python\Scripts\pip.exe" install --user --ignore-installed virtualenv | write-host;
 
-mkdir "$env:USERPROFILE\python-envs" -ErrorAction SilentlyContinue | Out-Null;
+## Create a virtualenv
+mkdir $VirtualEnvHome -ErrorAction SilentlyContinue | Out-Null;
+& "$env:APPDATA\Python\Scripts\virtualenv.exe" $VirtualEnvPath | write-host;
 
-$envpath = "$env:USERPROFILE\python-envs\automation"
-
-& "$env:APPDATA\Python\Scripts\virtualenv.exe" $envpath | write-host;
-
-
+## Create a shortcut on the desktop
 $WshShell = New-Object -comObject WScript.Shell
-$Shortcut = $WshShell.CreateShortcut("$Home\Desktop\Automation Command Prompt.lnk")
+$Shortcut = $WshShell.CreateShortcut("$Home\Desktop\$ShortcutName.lnk")
 $Shortcut.TargetPath = "$env:windir\system32\cmd.exe"
-$Shortcut.Arguments = "/k ""$envpath\Scripts\activate"""
+$Shortcut.Arguments = "/k ""$VirtualEnvPath\Scripts\activate"""
 $Shortcut.Save()
