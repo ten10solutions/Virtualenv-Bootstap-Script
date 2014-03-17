@@ -1,0 +1,10 @@
+ Quick and dirty script to create a virtualenv on a Windows desktop.
+=====================================================================
+
+This script will take a windows machine with nothing other than
+Powershell and Python installed on it, and will install Pip and
+Virtualenv on it.
+
+It will then create a virtualenv, and create a shortcut on the Desktop
+to it.
+
