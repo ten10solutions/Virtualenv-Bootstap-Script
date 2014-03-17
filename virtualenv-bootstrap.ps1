@@ -1,3 +1,7 @@
+# Make PS stop when something's gone wrong - instead of ploughing on
+# regardless.  Don't ask me when you'd want the default behaviour.
+$ErrorActionPreference="Stop"
+
 $python = "c:\python27\python.exe";
 $pipfile = [io.path]::GetTempFileName();
 $url = "https://raw.github.com/pypa/pip/master/contrib/get-pip.py";
