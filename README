@@ -1,10 +1,32 @@
- Quick and dirty script to create a virtualenv on a Windows desktop.
-=====================================================================
+Quick and dirty script to create a virtualenv on a Windows desktop.
+===================================================================
+
+**Warning:** Read this script before running it!  It may well be
+destructive on your machine!
+
+In training sessions, it's helpful to be able to get a lot of people
+set up with a clean Python environment with a minimum of fuss. 
 
 This script will take a windows machine with nothing other than
 Powershell and Python installed on it, and will install Pip and
-Virtualenv on it.
+Virtualenv on it.  These are user installs, so it should not be
+necessary to be a local administrator to run this.
 
-It will then create a virtualenv, and create a shortcut on the Desktop
-to it.
+Having installed these tools, it creates a virtualenv, and creates a
+shortcut on the desktop to start cmd.exe with the virtualenv
+activated.
 
+From there you can start having users install software.
+
+To use:
+
+1. Update to fit your particular needs, and host somewhere (like Github)
+2. Instruct your users to download the .ps1 and .cmd file (to their
+   Desktops or somewhere else sensible).
+3. Right click the Powershell script and uncheck the box that prevents
+   downloaded files from being run.
+4. Double click the batch script.
+5. Check the output looks sensible, before pressing a key to allow it
+   to close.
+6. Double click shortcut.
+7. Pip!
